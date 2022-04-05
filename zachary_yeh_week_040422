@@ -1,0 +1,42 @@
+# Circular Array: Implement a CircularArray class that supports an array-like data
+# structure which can be efficiently rotated. If possible, the class should use a
+# generic type (also called a template), and should support iteration via the
+# standard f or (Obj o : circularArray) notation.
+
+class circularArray():
+    def __init__(self, nums):
+        self.nums = nums
+        self.size = len(self.nums)
+
+    def rotate(self, rotations, reverse=False):
+        if rotations < 0:
+            return "Parameter 1 cannot accept negative numbers."
+        rotations %= self.size
+
+        if reverse:
+            d = {}
+            for i, num in enumerate(self.nums):
+                steps = i+rotations
+                if(steps>=self.size):
+                    steps -= self.size
+                d[steps] = num
+            for i in range(self.size):
+                self.nums[i] = d[i]
+            return self.nums
+        else:
+            d = {}
+            for i, num in enumerate(self.nums):
+                steps = i-rotations
+                if(steps<0):
+                    steps += self.size
+                d[steps] = num
+            for i in range(self.size):
+                self.nums[i] = d[i]
+            return self.nums
+
+a = [1,2,3,4,5]
+test = circularArray(a)
+# Right Rotation
+print(test.rotate(1, False))
+# Left Rotation
+print(test.rotate(2, True))
